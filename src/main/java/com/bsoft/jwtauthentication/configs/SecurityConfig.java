@@ -6,19 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.bsoft.jwtauthentication.configs.security.AuthEntryPointJwt;
 import com.bsoft.jwtauthentication.configs.security.UnauthorizedHandler;
+import com.bsoft.jwtauthentication.services.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -35,15 +32,8 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-    @Bean
-	UserDetailsService userDetailsService() {
-		UserDetails userDetails = User.builder().username("user")
-			.password("password")
-			.roles("USER")
-			.build();
-
-		return new InMemoryUserDetailsManager(userDetails);
-	}
+    @Autowired
+	UserService userDetailsService;
 
     @Bean
 	AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
