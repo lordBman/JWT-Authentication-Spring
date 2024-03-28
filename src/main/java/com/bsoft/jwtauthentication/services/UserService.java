@@ -15,7 +15,7 @@ import com.bsoft.jwtauthentication.repositories.UserRepository;
 public class UserService implements UserDetailsService{
     final UserRepository userRepository;
 
-    public UserService(@Autowired UserRepository userRepository){
+    public UserService( UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + username));
-
-    return CustomUserDetails.build(user);
+        
+        return CustomUserDetails.build(user);
     }
 }
