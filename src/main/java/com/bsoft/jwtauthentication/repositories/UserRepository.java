@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bsoft.jwtauthentication.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);    
+    Optional<User> findByEmail(String email);
+    boolean existsByEmail(String email);   
 }

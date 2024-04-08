@@ -1,0 +1,8 @@
+{
+    "jwt": "jwttoken",
+    "refreshToken": "refreshToken",
+    "id": 2,
+    "name": "Blessing Okelekele",
+    "email": "blessingokelekele@gmail.com",
+    "roles": ["user", "admin"]
+}

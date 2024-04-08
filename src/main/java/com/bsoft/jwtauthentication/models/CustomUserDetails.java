@@ -14,18 +14,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CustomUserDetails implements UserDetails{
     private final Long id;
 
-	private final String username;
+	private final String name;
 
-	private final String email;
+    private final String email;
 
 	@JsonIgnore
 	private final String password;
 
 	private final Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUserDetails(Long id, String name, String email, String password, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
-		this.username = username;
+        this.name = name;
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
@@ -45,13 +45,12 @@ public class CustomUserDetails implements UserDetails{
         return this.password;
     }
 
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -81,7 +80,7 @@ public class CustomUserDetails implements UserDetails{
 		if (o == null || getClass() != o.getClass())
 			return false;
 		CustomUserDetails user = (CustomUserDetails) o;
-		return Objects.equals(email, user.email) && Objects.equals(username, user.username);
+		return Objects.equals(email, user.email);
 	}
 
     public static CustomUserDetails build(User user) {
@@ -90,10 +89,15 @@ public class CustomUserDetails implements UserDetails{
 				.collect(Collectors.toList());
 
 		return new CustomUserDetails(
-				user.getId(), 
+				user.getId(),
+                user.getName(),
 				user.getEmail(), 
-				user.getEmail(),
 				user.getPassword(), 
 				authorities);
 	}
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 }
